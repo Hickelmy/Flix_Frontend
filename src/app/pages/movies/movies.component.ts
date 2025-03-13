@@ -34,7 +34,7 @@ interface Movie {
       </section>
 
       <!-- Sections by Categories -->
-      <section class="py-8 overflow-hidden"  *ngFor="let category of categories">
+      <section class="py-8 overflow-hidden" *ngFor="let category of categories">
         <div class="container mx-auto px-4 relative">
           <h2 class="text-2xl font-bold mb-4">{{ category.title }}</h2>
 
@@ -71,14 +71,14 @@ export class MoviesComponent implements OnInit {
   featuredMovie: Movie | null = null;
   selectedMovie: Movie | null = null;
   playingMovie: Movie | null = null;
-  private apiUrl = 'http://localhost:8000/movies?genres=';
+  private apiUrl = 'http://localhost:8000/movies/';
   private currentHeroIndex = 0;
 
   categories = [
-    { key: 'popular', title: 'Popular on Netflix', movies: [] as Movie[], offset: 0 },
-    { key: 'recommended', title: 'Recommended', movies: [] as Movie[], offset: 0 },
-    { key: 'comedy', title: 'Comedy Now', movies: [] as Movie[], offset: 0 },
-    { key: 'action', title: 'Blockbuster Action & Adventure', movies: [] as Movie[], offset: 0 },
+    { key: 'popular-movies', title: 'Popular on Netflix', movies: [] as Movie[], offset: 0 },
+    { key: 'trending-now', title: 'Trending Now', movies: [] as Movie[], offset: 0 },
+    { key: 'top-movies', title: 'Top Rated Movies', movies: [] as Movie[], offset: 0 },
+    { key: 'action-adventure', title: 'Blockbuster Action & Adventure', movies: [] as Movie[], offset: 0 },
     { key: 'drama', title: 'Netflix Drama', movies: [] as Movie[], offset: 0 }
   ];
 
@@ -89,6 +89,9 @@ export class MoviesComponent implements OnInit {
     this.startHeroSlider();
   }
 
+  /**
+   * 🔹 Carregar filmes das categorias mapeadas na API.
+   */
   loadMovies() {
     this.categories.forEach(category => {
       this.getMoviesByCategory(category.key).subscribe(
@@ -105,10 +108,16 @@ export class MoviesComponent implements OnInit {
     });
   }
 
+  /**
+   * 🔹 Busca filmes por categoria usando as novas rotas.
+   */
   getMoviesByCategory(category: string): Observable<Movie[]> {
-    return this.http.get<Movie[]>(`${this.apiUrl}${category}`);
+    return this.http.get<Movie[]>(`${this.apiUrl}${category}/`);
   }
 
+  /**
+   * 🔹 Expande os detalhes de um filme selecionado.
+   */
   expandMovie(movie: Movie) {
     this.selectedMovie = movie;
   }
@@ -117,6 +126,9 @@ export class MoviesComponent implements OnInit {
     this.selectedMovie = null;
   }
 
+  /**
+   * 🔹 Simula o início de reprodução de um filme.
+   */
   playMovie(movie: Movie | null) {
     if (movie) {
       this.playingMovie = movie;
@@ -127,6 +139,9 @@ export class MoviesComponent implements OnInit {
     this.playingMovie = null;
   }
 
+  /**
+   * 🔹 Animação de slider para a esquerda.
+   */
   scrollLeft(category: any) {
     category.offset += 6 * -250; // Retrocede 6 cards (~250px cada)
     if (category.offset > 0) {
@@ -134,6 +149,9 @@ export class MoviesComponent implements OnInit {
     }
   }
 
+  /**
+   * 🔹 Animação de slider para a direita.
+   */
   scrollRight(category: any) {
     category.offset -= 6 * -250; // Avança 6 cards (~250px cada)
     if (Math.abs(category.offset) > (category.movies.length - 6) * 250) {
@@ -141,6 +159,9 @@ export class MoviesComponent implements OnInit {
     }
   }
 
+  /**
+   * 🔹 Alterna automaticamente o filme em destaque a cada 10 segundos.
+   */
   startHeroSlider() {
     interval(10000).subscribe(() => {
       const allMovies = this.categories.flatMap(category => category.movies);
