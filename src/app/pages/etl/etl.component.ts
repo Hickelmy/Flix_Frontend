@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common'; // ✅ Importando CommonModule
+import { CommonModule } from '@angular/common'; 
 import { HttpClient } from '@angular/common/http';
 import { WebSocketSubject } from 'rxjs/webSocket';
 
 @Component({
   selector: 'app-etl',
   standalone: true,
-  imports: [CommonModule], // ✅ Adicionando CommonModule
+  imports: [CommonModule], 
   template: `
     <div class="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-6">
       <h1 class="text-3xl font-bold mb-6">ETL Dataset Downloader</h1>
@@ -23,12 +23,12 @@ import { WebSocketSubject } from 'rxjs/webSocket';
 
       <div *ngIf="progress" class="mt-6 w-full max-w-md">
         <p class="text-lg font-semibold">
-          Progresso: {{ progress?.stage }} - {{ progress?.percent }}%
+          Progresso: {{ progress.stage }} - {{ progress.percent }}%
         </p>
         <div class="w-full bg-gray-700 rounded-full h-4 overflow-hidden">
           <div
             class="bg-green-500 h-full transition-all duration-300"
-            [style.width]="progress?.percent + '%'"
+            [style.width]="progress.percent + '%'"
           ></div>
         </div>
       </div>
@@ -42,7 +42,7 @@ export class EtlComponent implements OnInit, OnDestroy {
     { name: 'MovieLens 25M', url: 'https://files.grouplens.org/datasets/movielens/ml-25m.zip' }
   ];
 
-  progress: { stage: string; percent: number } = { stage: 'Aguardando', percent: 0 }; // ✅ Evita 'null'
+  progress: { stage: string; percent: number } = { stage: 'Aguardando', percent: 0 }; 
   websocket?: WebSocketSubject<any>;
 
   constructor(private http: HttpClient) {}
@@ -68,7 +68,6 @@ export class EtlComponent implements OnInit, OnDestroy {
       error: err => alert('Erro ao iniciar ETL: ' + err.message),
     });
   }
-  
 
   connectToWebSocket() {
     this.websocket = new WebSocketSubject('ws://localhost:3005/progress');

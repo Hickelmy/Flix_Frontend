@@ -6,6 +6,7 @@ import { HeaderComponent } from './app/components/header/header.component';
 import { HomeComponent } from './app/pages/home/home.component';
 import { LoginComponent } from './app/pages/login/login.component';
 import { EtlComponent } from './app/pages/etl/etl.component';
+import { MoviesComponent } from './app/pages/movies/movies.component';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,9 @@ const routes = [
   { path: '', component: HomeComponent },
   { path: 'browse', component: HomeComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'movies', component: MoviesComponent },
   { path: 'etl', component: EtlComponent }
+
 
 ];
 
